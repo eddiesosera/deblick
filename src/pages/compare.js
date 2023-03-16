@@ -12,6 +12,19 @@ function Compare() {
     return (
         <div className="mainPage-container">
 
+            <div className="compareContainer">
+                <div className="home-section1">
+                    <div className="hS1-L">
+                        <div id="hS1-L-time">Compare</div>
+                    </div>
+                    <div className="hS1-R">
+                        <div id="hS1-R-info">
+                            This page compares two different genres represented by 3 different chart elements.<br/>
+                            You can interact with it by updating and selecting chart elements to compare number of events.
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     )

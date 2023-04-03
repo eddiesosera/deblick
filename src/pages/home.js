@@ -9,18 +9,21 @@ import dummyImg1 from '../images/dummyImages/1.jpg';
 import ticketMaster from '../images/logos/ticketmaster-logo.png'
 import deBlickLogo from '../images/logos/deBlick-logo.svg'
 import './style/home.css'
+import dayjs from 'dayjs'
 
 function Home() {
 
-    var date = new Date();
-    var current_time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 
-    const [time, setTime] = useState("00:00")
+    const [time, setTime] = useState("")
+    let now = dayjs()
+    let hour = now.hour(0)
 
     useEffect(() => {
         // setTime(current_time.substring(0.3))
-        setTime("14:00")
-    })
+        let now = dayjs()
+        console.log(now.hour() + ":" + now.minute())
+        setTime(now.hour() + ":" + now.minute())
+    }, [time])
 
 
     const [apiData, setApiData] = useState([]);
@@ -30,6 +33,16 @@ function Home() {
     const [eventPrice, setEventPrice] = useState("")
     const [eventImg, setEventImg] = useState("")
 
+    const [eventName2, setEventName2] = useState("Loading")
+    const [eventDate2, setEventDate2] = useState("")
+    const [eventPrice2, setEventPrice2] = useState("")
+    const [eventImg2, setEventImg2] = useState("")
+
+    const [eventName3, setEventName3] = useState("Loading")
+    const [eventDate3, setEventDate3] = useState("")
+    const [eventPrice3, setEventPrice3] = useState("")
+    const [eventImg3, setEventImg3] = useState("")
+
     useEffect(() => {
         axios.get('https://app.ticketmaster.com/discovery/v2/events?apikey=SceNRD9eRjHsgOQYwJPdGWajdha6H11l')
             .then((response) => {
@@ -38,11 +51,23 @@ function Home() {
                 // setApiData(response.data)
 
                 const eventNo = 10;
+                const eventNo2 = 1;
+                const eventNo3 = 4;
 
                 setEventName(response.data._embedded.events[eventNo].products[0].name)
                 setEventDate(response.data._embedded.events[eventNo].dates.start.localDate)
                 setEventPrice(response.data._embedded.events[eventNo].priceRanges[0].min)
                 setEventImg((response.data._embedded.events[eventNo].images[5].url))
+
+                setEventName2(response.data._embedded.events[eventNo2].products[0].name)
+                setEventDate2(response.data._embedded.events[eventNo2].dates.start.localDate)
+                setEventPrice2(response.data._embedded.events[eventNo2].priceRanges[0].min)
+                setEventImg2((response.data._embedded.events[eventNo2].images[5].url))
+
+                setEventName3(response.data._embedded.events[eventNo3].products[0].name)
+                setEventDate3(response.data._embedded.events[eventNo3].dates.start.localDate)
+                setEventPrice3(response.data._embedded.events[eventNo3].priceRanges[0].min)
+                setEventImg3((response.data._embedded.events[eventNo3].images[5].url))
 
 
             })
@@ -84,20 +109,13 @@ function Home() {
                     <div className="hS2-2_dasboard1">
                         <div className="hS2-2_dasboard1-inner">
                             <div className="home-dash-sec">
-                                PRICES
+                                PRICES($)
                             </div>
                             <div className="home-dash-container">
                                 <LineGraph />
                             </div>
                         </div>
-                        <div className="hS2-2_dasboard1-inner">
-                            <div className="home-dash-sec">
-                                GENRES
-                            </div>
-                            <div className="home-dash-container">
-                                <LineGraph />
-                            </div>
-                        </div>
+
 
                     </div>
                 </div>
@@ -125,34 +143,34 @@ function Home() {
 
                         <div className="home-section3-eC-eventItm">
                             <div className="home-section3-eC-eventItmTop-container">
-                                <img className="home-section3-eC-eventItm-Img" src={eventImg} alt="" />
+                                <img className="home-section3-eC-eventItm-Img" src={eventImg2} alt="" />
                                 <div className="home-section3-eC-eventItm-price">
-                                    USD{eventPrice}
+                                    USD{eventPrice2}
                                 </div>
                             </div>
                             <div className="home-section3-eC-eventItmBtm-container">
                                 <div className="home-section3-eC-eventItm-title">
-                                    {eventName}
+                                    {eventName2}
                                 </div>
                                 <div className="home-section3-eC-eventItm-date">
-                                    {eventDate}
+                                    {eventDate2}
                                 </div>
                             </div>
                         </div>
 
                         <div className="home-section3-eC-eventItm">
                             <div className="home-section3-eC-eventItmTop-container">
-                                <img className="home-section3-eC-eventItm-Img" src={eventImg} alt="" />
+                                <img className="home-section3-eC-eventItm-Img" src={eventImg3} alt="" />
                                 <div className="home-section3-eC-eventItm-price">
-                                    USD{eventPrice}
+                                    USD{eventPrice3}
                                 </div>
                             </div>
                             <div className="home-section3-eC-eventItmBtm-container">
                                 <div className="home-section3-eC-eventItm-title">
-                                    {eventName}
+                                    {eventName3}
                                 </div>
                                 <div className="home-section3-eC-eventItm-date">
-                                    {eventDate}
+                                    {eventDate3}
                                 </div>
                             </div>
                         </div>

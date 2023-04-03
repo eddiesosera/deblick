@@ -1,60 +1,57 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import axios from 'axios';
-import { Line } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
 import {
     Chart as chartJS,
     LineElement,
     CategoryScale, // x a-xis
     LinearScale, // y axis
-    PointElement
+    PointElement,
+    BarElement
 } from 'chart.js';
 
 chartJS.register(
     LineElement,
     CategoryScale,
     LinearScale,
-    PointElement
+    PointElement,
+    BarElement
 )
 
 function LineGraph() {
 
-    // const [apiData, setApiData] = useState([]);
+    const [eventName, setEventName] = useState("Loading")
+    const [eventDate, setEventDate] = useState("")
+    const [eventPriceMin, setEventPriceMin] = useState("")
+    const [eventPriceMax, setEventPriceMax] = useState("")
 
-    // const [missionName, setMissionName] = useState("Loading")
-    // const [missionPatch, setMissionPatch] = useState("")
-    // const [launchYear, setLaunchYear] = useState("")
-    // const [launchSuccess, setLaunchSuccess] = useState("")
+    useEffect(() => {
+        axios.get('https://app.ticketmaster.com/discovery/v2/events?apikey=SceNRD9eRjHsgOQYwJPdGWajdha6H11l')
+            .then((response) => {
 
-    // let [apiIndex, setApiIndex] = useState(0)
+                console.log(response)
+                // setApiData(response.data)
 
-    // useEffect(() => {
-    //     axios.get('https://app.ticketmaster.com/discovery/v2/events.json?keyword=Barclays&apikey=SceNRD9eRjHsgOQYwJPdGWajdha6H11l')
-    //         .then((response) => {
-    //             console.log(response)
-    //             let index = apiIndex;
-    //             setApiData(response.data)
-    //             setMissionName(response.data[0].mission_name)
-    //             setMissionPatch(response.data[0].links.mission_patch)
-    //             setLaunchYear(response.data[0].launch_year)
-    //             if (response.data[0].launch_succes) {
-    //                 setLaunchSuccess("Success")
-    //             } else {
-    //                 setLaunchSuccess("Failed")
-    //             }
+                const eventNo = 10;
 
-    //         })
-    //         .catch((error) => {
-    //             console.log(error)
-    //         })
-    // }, [apiIndex])
+                setEventName(response.data._embedded.events[eventNo].products[0].name)
+                setEventDate(response.data._embedded.events[eventNo].dates.start.localDate)
+                setEventPriceMin(response.data._embedded.events[eventNo].priceRanges[0].min)
+                setEventPriceMax(response.data._embedded.events[eventNo].priceRanges[0].max)
+
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }, [])
 
     const data = {
-        labels: ['Mon', 'Tue', 'Wed', ],
+        labels: ['Minimum', 'Average', 'Maximum'],
         datasets: [
             {
                 label: 'Sale og the Week',
-                data: [3,6,9],
+                data: [eventPriceMin,(eventPriceMin+eventPriceMax/2),eventPriceMax],
                 backgroundColor: '#16E9E9',
                 borderColor: '#16E9E9',
                 pointBorderColor: '16E9E9'
@@ -62,14 +59,17 @@ function LineGraph() {
         ]
     }
 
+    let c = data.datasets[0].data
+    console.log(c[0])
+
     const options = {
         plugins: {
             legend: true
         },
         scales: {
             y: {
-                min: 3,
-                max: 9
+                min: 0,
+                max: 300
             }
         }
     }

@@ -1,91 +1,154 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import SideBar from "../components/sidebar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
-import LineGraph from "../components/charts/lineGraph";
-import dummyImg1 from '../images/dummyImages/1.jpg';
-import ticketMaster from '../images/logos/ticketmaster-logo.png'
-import deBlickLogo from '../images/logos/deBlick-logo.svg'
-import './style/home.css';
-import PieChart from "../components/charts/pieChart";
-import BarGraph from "../components/charts/barGraph";
+import BarGraph from '../components/charts/compare/bar';
+import PieChart from '../components/charts/compare/pie';
+import PolarAreaGraph from '../components/charts/compare/polarArea';
 
 function Compare() {
 
-    const [eventName, setEventName] = useState("Loading")
-    const [eventDate, setEventDate] = useState("")
-    const [eventPrice, setEventPrice] = useState("")
-    const [eventImg, setEventImg] = useState("")
+  const apiKey = 'aa0feba793eab9ed9931e30af01f28ecba33f0be36e09853905ebbf976d57753';
 
-    useEffect(() => {
-        axios.get('https://app.ticketmaster.com/discovery/v2/events?apikey=SceNRD9eRjHsgOQYwJPdGWajdha6H11l')
-            .then((response) => {
+  //Teams
+  const [selectTeam1, setSelectTeam1] = useState('Team 1')
+  const [selectTeam2, setSelectTeam2] = useState('Team 2')
 
-                // console.log(response)
-                // setApiData(response.data)
+  //Player data points
+  const [playerName1, setPlayerName1] = useState('Messi')
+  const [playerAge1, setPlayerAge1] = useState([35])
+  const [playerGoals1, setPlayerGoals1] = useState([15])
+  const [playerClearences1, setPlayerClearences1] = useState([5])
+  const [playerMatchPlayed1, setPlayerMatchPlayed1] = useState([15]);
 
-                const eventNo = 10;
+  const [playerName2, setPlayerName2] = useState('Ronaldo')
+  const [playerAge2, setPlayerAge2] = useState([19])
+  const [playerGoals2, setPlayerGoals2] = useState([24])
+  const [playerClearences2, setPlayerClearences2] = useState([9])
+  const [playerMatchPlayed2, setPlayerMatchPlayed2] = useState([19])
 
-                setEventName(response.data._embedded.events[eventNo].products[0].name)
-                setEventDate(response.data._embedded.events[eventNo].dates.start.localDate)
-                setEventPrice(response.data._embedded.events[eventNo].priceRanges[0].min)
-                setEventImg((response.data._embedded.events[eventNo].images[5].url))
+  //Players
+  const [playerList, setPlayerList] = useState([]);
+
+  //Get teams => Team 1
+  const [teamsList, setTeamsList] = useState([])
+  useEffect(() => {
+    axios.get('https://apiv3.apifootball.com/?action=get_teams&team_id=73&APIkey=' + apiKey).then((teams) => {
+      console.log(teams.data)
+      const teamsList = teams.data
+
+      setTeamsList(teamsList.map((player) => player.players.map((name) => name.player_name)))
+      setPlayerList(teamsList.map((ply) => ply.players))
+
+      //setPlayerAge(teamsList.map((age) => age.players.player_age))
+      console.log(teamsList.map((ply) => ply.players))
+
+    })
+  }, [])
+
+  //Get teams => Team 2
+  useEffect(() => {
+    axios.get('https://apiv3.apifootball.com/?action=get_teams&team_id=79&APIkey=' + apiKey).then((teams) => {
+      console.log(teams.data)
+      const teamsList = teams.data
+
+      //setPlayerAge(teamsList.map((age) => age.players.player_age))
+      //console.log(teamsList.map((age) => age.players.map((player) => player.player_age)))
+
+    })
+  }, [])
+
+  //Team List
+  useEffect(() => {
+    axios.get('https://apiv3.apifootball.com/?action=get_teams&league_id=302&APIkey=' + apiKey).then((teams) => {
+      console.log(teams.data)
+    })
+  }, [])
+
+  //Change Team on list
+  const teamOptions = useRef()
+  const changeTeam = (e) => {
+    setSelectTeam1(e.target.value)
+  }
+  const changeTeam2 = (e) => {
+    setSelectTeam2(e.target.value)
+  }
+
+  //Search
+  const [typeInput, setTypeInput] = useState('i');
+
+  const searchInput = (e) => {
+    setTypeInput(e.target.value)
+  };
+
+  const searchRef = useRef()
+  const onSubmit = (e) => {
+    e.preventDefault()
+    alert(' searching for: "' + typeInput + '"')
+    searchRef.current = ' '
+  }
+
+  // Load graph
+  //Default graph data
+  const [playerDetails, setPlayerDetails] = useState({
+    labels: [playerName1, playerName2],
+    color: ["red", "yellow", 'green'],
+    datasets: [{
+      label: ("Age"),
+      data: [playerAge1, playerAge2],
+      tension: 0.4,
+      backgroundColor: ['green', "cream"],
+    },
+    {
+      label: ("Clearence"),
+      data: [playerClearences1, playerClearences2],
+      tension: 0.4,
+      backgroundColor: ["red", "pink"],
+    },
+    {
+      label: ("Goals"),
+      data: [playerGoals1, playerGoals2],
+      tension: 0.4,
+      backgroundColor:  ["teal", "blue"],
+    },
+    {
+      label: ("Match played"),
+      data: [playerMatchPlayed1, playerMatchPlayed2],
+      tension: 0.4,
+      backgroundColor: ["orange", "gold"],
+    }
+    ],
+  })
 
 
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-    }, [])
 
-    return (
-        <div className="mainPage-container">
+  return (
+    <div>
+      Compare Player Statics<br />
+      <form>
+        <input placeholder='Search player' ref={searchRef} onInput={searchInput} />
+        <button type='submit' onClick={onSubmit}>Search</button>
+      </form>
 
-            <div className="compareContainer homeContainer">
-                <div className="home-section1">
-                    <div className="hS1-L">
-                        <div id="hS1-L-time">Compare</div>
-                    </div>
-                    <div className="hS1-R">
-                        <div id="hS1-R-info">
-                            This page compares two different genres represented by 3 different chart elements.<br />
-                        </div>
-                    </div>
-                </div>
+      <div>Searching for: '<b> {typeInput} </b>' </div>
 
-                <>
-                    <div className="home-section2">
-                        <div className="hS2-2_dasboard1">
-                            <div className="hS2-2_dasboard1-inner">
-                                <div className="home-dash-sec">
-                                    PRICES
-                                </div>
-                                <div className="home-dash-container">
-                                    <LineGraph />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="home-section2">
-                            <div className="hS2-2_dasboard1-inner">
-                                <div className="home-dash-sec">
-                                    <input type="text" placeholder="Search for event or artist" />
-                                </div>
-                                <div className="home-dash-container">
-                                    {/* <PieChart/> */}
-                                    <BarGraph />
-                                </div>
-                            </div>
+      <h1>{selectTeam1} vs {selectTeam2}</h1>
 
-                        </div>
-                    </div>
-                </>
+      <select className='custom-select' ref={teamOptions} onChange={changeTeam}>
+        <option >Choose Team 1</option>
+        {playerList.map(team => (
+          <option key={'1'}>
+            {team.map((p) => p.player_name)}
+          </option>
+        )
+        )}
+      </select>
 
-            </div>
-        </div>
+      <BarGraph chartData={playerDetails} />
+      <PieChart chartData={playerDetails}/>
+    <PolarAreaGraph chartData={playerDetails} />
 
-    )
+    </div>
+  )
 }
 
 export default Compare

@@ -194,7 +194,7 @@ function Compare() {
 
       <div style={{ display: 'flex' }}>
 
-        <Card style={{ width: '12rem', display: 'flex', alignItems: 'center' }}>
+        <Card style={{ width: '12rem', display: 'flex', alignItems: 'center', background:'#1E2326' }}>
           <Card.Img variant='top' style={{ objectFit: 'cover' }} src={playerImg} alt='Player 1' />
           <Card.Body style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Card.Title style={{ textAlign: 'center' }}>{playerName1}</Card.Title>
@@ -207,7 +207,7 @@ function Compare() {
           </Card.Body>
         </Card>
 
-        <Card style={{ width: '12rem', display: 'flex', alignItems: 'center' }}>
+        <Card style={{ width: '12rem', display: 'flex', alignItems: 'center', background:'#1E2326' }}>
           <Card.Img variant='top' style={{ objectFit: 'cover' }} src={playerImg2} alt='Player 1' />
           <Card.Body style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Card.Title style={{ textAlign: 'center' }}>{playerName2}</Card.Title>

@@ -23,7 +23,7 @@ a {
 }
 
 a:hover{
-    background: #f1f1f1;;
+    background: #1E2326;
     cursor: pointer;
 }
 
@@ -35,9 +35,9 @@ a:hover{
     padding: 20px;
     margin-left: -45px;
 
-    border-right: 1px solid #e1e1e1;
+    /* border-right: 1px solid #e1e1e1; */
 
-    background: rgb(255, 255, 255);
+    background: #141819;
 
     position: fixed;
 }
@@ -72,8 +72,8 @@ a:hover{
     width: 24px;
     height: 24px;
 
-    background: #ECECEC;
-    ;
+    background: #F2F6F9;
+    color: #141819;
 
     border-radius: 50%;
 
@@ -112,7 +112,7 @@ a:hover{
 }
 
 .activePage {
-    background: #161616;
+    background: #0AA3EF;
     color: white;
 
     transition: ease-in-out 0.3s;
@@ -120,7 +120,7 @@ a:hover{
 
 .inActivePage {
     background: none;
-    color: #878787;
+    color:  #49535b;
 }
 
 .sideBar-section3 {

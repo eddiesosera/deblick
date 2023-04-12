@@ -8,11 +8,11 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
-    <div className="App" style={{ backgroundColor: '#F3F3F3', height:'100vh', padding:'15px' }}>
+    <div className="App" style={{ backgroundColor: '#0E1112', height:'100vh', padding:'15px' }}>
       <div style={{zIndex: 2}}>
         <SideBar />
       </div>
-      <div style={{ overflowY:'scroll', overflowX:'hidden', marginLeft: 'calc(135px + 2vw)', backgroundColor: 'white', padding:'20px', borderRadius:'10px', width:'90%' }}>
+      <div style={{ overflowY:'scroll', overflowX:'hidden', marginLeft: 'calc(135px + 2vw)', backgroundColor: '#17191A', color:'#F2F6F9', padding:'20px', borderRadius:'10px', width:'90%' }}>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/compare' element={<Compare />} />

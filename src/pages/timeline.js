@@ -241,7 +241,7 @@ function Timeline() {
 
 
     return (
-        <div >
+        <div style={{fontFamily: 'Montserrat'}}>
 
             <div><h1>Timeline of {updateSelectedTeam}'s Statics</h1></div>
 

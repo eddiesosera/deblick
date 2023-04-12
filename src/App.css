@@ -5,20 +5,22 @@ body {
   width: 100%; */
   margin: 0 auto;
 
-  background-color: #F3F3F3 !important;
+  background-color: #0E1112 !important;
+  color: #F2F6F9;
 
   font-family: Montserrat;
   font-weight: 500;
 
   padding: 0 2vw;
 
-  --sidebar: 
+
 }
 
 .App {
   display: flex;
   /* justify-content: space-between; */
   margin: auto;
+  background-color: #0E1112;
 }
 
 .mainPage-container {

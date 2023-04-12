@@ -12,7 +12,7 @@ function App() {
       <div style={{zIndex: 2}}>
         <SideBar />
       </div>
-      <div style={{ overflowY:'scroll', overflowX:'hidden', marginLeft: 'calc(190px + 2vw)', backgroundColor: 'white', padding:'20px', borderRadius:'10px', width:'90%' }}>
+      <div style={{ overflowY:'scroll', overflowX:'hidden', marginLeft: 'calc(135px + 2vw)', backgroundColor: 'white', padding:'20px', borderRadius:'10px', width:'90%' }}>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/compare' element={<Compare />} />

@@ -30,47 +30,102 @@ function Timeline() {
     const [toDate, setToDate] = useState(toDateVal)
 
     useEffect(() => {
-        axios.get('https://apiv3.apifootball.com/?action=get_leagues&APIkey=' + apiKey).then((res) => {
+        axios.get('https://apiv3.apifootball.com/?action=get_leagues&APIkey=' + apiKey)
+            .then((res) => {
 
-            console.log(res.data)
-            let dataList = res.data
+                console.log(countries)
 
-            console.log(countries)
-
-        })
+            })
     }, [])
 
     // Match results
     useEffect(() => {
-        axios.get('https://apiv3.apifootball.com/?action=get_events&from=' + fromDate + '-01-01&to=2023-10-01&team_id=' + teamId + '&APIkey=' + apiKey).then((res) => {
+        axios.get('https://apiv3.apifootball.com/?action=get_events&from=' + fromDate + '-01-01&to=2023-10-01&team_id=' + teamId + '&APIkey=' + apiKey)
+            .then((res) => {
 
-            let matchData = res.data
+                let matchData = res.data
+                console.log(matchData)
 
-            console.log(matchData)
+                setMatchScore(matchData.map((goals) => goals.match_awayteam_score));
+                setMatch_HT_Score(matchData.map((goals) => goals.match_awayteam_halftime_score));
+                setMatch_OtherScore(matchData.map((goals) => goals.match_hometeam_score));
+                setMatchCards(matchData.map((cards) => (cards.cards).length));
+                setMatchGoalScorer(matchData.map((scorers) => (scorers.goalscorer).length));
+                setMatchDate(matchData.map((date) => date.match_date))
 
-            setMatchScore(matchData.map((goals) => goals.match_awayteam_score));
-            setMatch_HT_Score(matchData.map((goals) => goals.match_awayteam_halftime_score));
-            setMatch_OtherScore(matchData.map((goals) => goals.match_hometeam_score));
-            setMatchCards(matchData.map((cards) => (cards.cards).length));
-            setMatchGoalScorer(matchData.map((scorers) => (scorers.goalscorer).length));
-            setMatchDate(matchData.map((date) => date.match_date))
+                console.log(toDateVal)
 
-            console.log(toDateVal)
-
-        })
-    }, [fromDate, toDate, toDateVal])
+            })
+    }, [fromDate, toDate, toDateVal, teamId])
 
     //Get teams
+    const [leagueID, setLeagueID] = useState(302)
+    const [leagueName, setLeagueName] = useState('La Liga')
     const [teamsList, setTeamsList] = useState([])
+
     useEffect(() => {
-        axios.get('https://apiv3.apifootball.com/?action=get_teams&league_id=302&APIkey=' + apiKey).then((teams) => {
-            console.log(teams.data)
-            const teamsList = teams.data
+        axios.get('https://apiv3.apifootball.com/?action=get_teams&league_id=' + leagueID + '&APIkey=' + apiKey)
+            .then((teams) => {
 
-            setTeamsList(teamsList)
+                console.log(teams.data)
+                const teamsList = teams.data
+                setTeamsList(teamsList)
 
-        })
-    }, [])
+            })
+    }, [leagueID])
+
+    // Select Team
+    const teamOptions = useRef()
+    const [selectTeam, setSelectTeam] = useState('Atletico Madrid')
+
+    const changeTeam = (e) => {
+
+        const selectedTeam = e.target.value;
+        const selectedTeamObj = teamsList.filter((team) => team.team_key === selectedTeam.key)
+        //console.log(selectedTeamObj)
+
+        setTeamId(e.target.value)
+        console.log(e.target.value)
+
+    }
+
+    //Update name
+    const [updateSelectedTeam, setUpdateSelectedTeam] = useState('Atletico Madrid')
+    useEffect(() => {
+        axios.get('https://apiv3.apifootball.com/?action=get_teams&team_id=' + teamId + '&APIkey=' + apiKey)
+            .then((teamSelectedData) => {
+
+                let teamSelected = teamSelectedData.data[0]
+                console.log(teamSelectedData)
+                setUpdateSelectedTeam(teamSelected.team_name)
+            })
+    }, [teamId])
+
+
+    //Select Year
+    const yearOptions = useRef()
+    const [selectYear, setSelectYear] = useState(2020)
+
+
+    //Change League
+    const changeLeague = (e) => {
+        setLeagueName(e.target.value)
+        const selectedLeague = e.target.value;
+
+        if (selectedLeague === 'Barclays Premier Leauge') {
+            setLeagueID(152)
+        } else
+            if (selectedLeague === 'La Liga') {
+                setLeagueID(302)
+            } else
+                if (selectedLeague === 'Bundesliga') {
+                    setLeagueID(171)
+                }
+
+        console.log(e.target.key)
+
+    }
+
 
     //Default graph data
     const [matchDetails, setMatchDetails] = useState({
@@ -184,48 +239,34 @@ function Timeline() {
         },
     })
 
-    // Select country
-    const changeTeam = (e) => {
-        setSelectTeam(e.target.value)
-        const selectedTeam = e.target.value;
-        const selectedTeamObj = teamsList.filter((team) => team.team_key === selectedTeam.key)
-        console.log(selectedTeamObj)
-        console.log(e.target.key)
-
-        console.log(teamsList)
-    }
-    const teamOptions = useRef()
-    const [selectTeam, setSelectTeam] = useState('')
-
-    //Select Year
-    const yearOptions = useRef()
-    const [selectYear, setSelectYear] = useState(2020)
-
-    //Live Match
-    useEffect(() => {
-        axios.get("https://apiv3.apifootball.com/?action=get_events&match_live=1&APIkey=aa0feba793eab9ed9931e30af01f28ecba33f0be36e09853905ebbf976d57753")
-            .then((livematch) => {
-                console.log(livematch)
-            })
-    })
 
     return (
         <div >
-            Timeline
 
+            <div><h1>Timeline of {updateSelectedTeam}'s Statics</h1></div>
+
+            {/* List of popular leagues */}
+            <select onChange={changeLeague}>
+                <option>Choose League</option>
+                <option>Barclays Premier Leauge</option>
+                <option>La Liga</option>
+                <option>Bundesliga</option>
+            </select>
+
+            {/* List of TEAMS in leagues */}
             <select className='custom-select' ref={teamOptions} onChange={changeTeam}>
                 <option >Choose Team</option>
                 {teamsList.map(team =>
-                    (<option key={team.team_key}>{team.team_name}</option>)
+                    (<option key={team.team_key} value={team.team_key} name={team.teamOptions}>{team.team_name}</option>)
                 )}
             </select>
+
+            {/* Year of Mathes */}
             <select ref={yearOptions} onChange={(e) => { setFromDate(e.target.value); setToDate(toDateVal) }}>
                 <option >Select Year-</option>
                 {selectYearList.map(years => (<option key={years.id}>{years.year}</option>)
                 )}
             </select>
-
-            <div><h1>{selectTeam}'s Statics</h1></div>
 
             <div style={{ width: 1000 }}>
                 <LineGraph chartData={matchDetails} chartOptions={graphLabel} />

@@ -15,98 +15,93 @@ function Compare() {
 
   const apiKey = 'aa0feba793eab9ed9931e30af01f28ecba33f0be36e09853905ebbf976d57753';
 
-  //Teams
-  const [selectTeam1, setSelectTeam1] = useState('Team 1')
-  const [selectTeam2, setSelectTeam2] = useState('Team 2')
-
   //Player data points
-  const [playerName1, setPlayerName1] = useState('Messi')
+  const [playerName1, setPlayerName1] = useState('Sergio Camus')
   const [playerAge1, setPlayerAge1] = useState([35])
   const [playerGoals1, setPlayerGoals1] = useState([15])
-  const [playerClearences1, setPlayerClearences1] = useState([5])
+  const [playerMinutes1, setPlayerMinutes1] = useState([5])
   const [playerMatchPlayed1, setPlayerMatchPlayed1] = useState([15]);
+  const [playerTeam1, setPlayerTeam1] = useState('Atletico Madrid')
 
-  const [playerName2, setPlayerName2] = useState('Ronaldo')
+  const [playerName2, setPlayerName2] = useState('Mbappe')
   const [playerAge2, setPlayerAge2] = useState([19])
   const [playerGoals2, setPlayerGoals2] = useState([24])
-  const [playerClearences2, setPlayerClearences2] = useState([9])
+  const [playerMinutes2, setPlayerMinutes2] = useState([9])
   const [playerMatchPlayed2, setPlayerMatchPlayed2] = useState([19])
+  const [playerTeam2, setPlayerTeam2] = useState('Atletico Madrid')
+
 
   const [playerImg, setPlayerImg] = useState('https://apiv3.apifootball.com/badges/players/58284_sergio-camus.jpg')
   const [playerImg2, setPlayerImg2] = useState('https://apiv3.apifootball.com/badges/players/51921_k-mbappe.jpg')
 
-  //Players
-  const [playerList, setPlayerList] = useState(['']);
 
   //Search
-  const [typeInput, setTypeInput] = useState('Sergio Camus');
+  const [typeInput, setTypeInput] = useState('');
+  const [typeInput2, setTypeInput2] = useState('');
 
+  //Get Search value
   const searchInput = (e) => {
     setTypeInput(e.target.value)
   };
+  const searchInput2 = (e) => {
+    setTypeInput2(e.target.value)
+  };
 
-
-  //Get teams => Team 1
-  const [teamsList, setTeamsList] = useState([])
-  useEffect(() => {
-    axios.get('https://apiv3.apifootball.com/?action=get_teams&team_id=73&APIkey=' + apiKey).then((teams) => {
-      console.log(teams.data)
-      const teamsList = teams.data
-
-      setTeamsList(teamsList.map((player) => player.players.map((name) => name.player_name)))
-      setPlayerList(teamsList.map((ply) => ply.players))
-
-      console.log(playerList)
-
-      //setPlayerAge(teamsList.map((age) => age.players.player_age))
-      console.log(teamsList.map((ply) => ply.players))
-
-    })
-  }, [])
-
-  //Get teams => Team 2
-  useEffect(() => {
-    axios.get('https://apiv3.apifootball.com/?action=get_teams&team_id=79&APIkey=' + apiKey).then((teams) => {
-      console.log(teams.data)
-      const teamsList = teams.data
-
-      //setPlayerAge(teamsList.map((age) => age.players.player_age))
-      //console.log(teamsList.map((age) => age.players.map((player) => player.player_age)))
-
-    })
-  }, [])
-
-  //Team List
-  useEffect(() => {
-    axios.get('https://apiv3.apifootball.com/?action=get_teams&league_id=302&APIkey=' + apiKey).then((teams) => {
-      console.log(teams.data)
-    })
-  }, [])
-
-  //Change Team on list
-  const teamOptions = useRef()
-  const changeTeam = (e) => {
-    setSelectTeam1(e.target.value)
-  }
-  const changeTeam2 = (e) => {
-    setSelectTeam2(e.target.value)
-  }
-
-  // //Search
-  // const [typeInput, setTypeInput] = useState('i');
-
-  // const searchInput = (e) => {
-  //   setTypeInput(e.target.value)
-  // };
-
+  //Search Submit
   const searchRef = useRef()
+  const searchRef2 = useRef()
+
   const onSubmit = (e) => {
     e.preventDefault()
     alert(' searching for: "' + typeInput + '"')
     searchRef.current = ' '
+    setTypeInput(e.target.value)
+  }
+  const onSubmit2 = (e) => {
+    e.preventDefault()
+    alert(' searching for: "' + typeInput2 + '"')
+    searchRef2.current = ' ';
+    setTypeInput2(e.target.value)
   }
 
-  // Load graph
+  //Update Searched Player 1
+  const [player1Pos, setPlayer1Pos] = useState(0);
+  useEffect(() => {
+    axios.get('https://apiv3.apifootball.com/?action=get_players&player_name=' + typeInput + '&APIkey=' + apiKey)
+      .then((player1Data) => {
+
+        let player1 = player1Data.data[player1Pos]
+
+        setPlayerName1(player1.player_name)
+        setPlayerAge1(player1.player_age)
+        setPlayerGoals1(player1.player_goals)
+        setPlayerMinutes1(player1.player_minutes)
+        setPlayerMatchPlayed1(player1.player_match_played)
+        setPlayerTeam1(player1.team_name)
+        setPlayerImg(player1.player_image)
+
+      })
+  }, [typeInput, player1Pos])
+
+    //Update Searched Player 2
+    const [player2Pos, setPlayer2Pos] = useState(0);
+    useEffect(() => {
+      axios.get('https://apiv3.apifootball.com/?action=get_players&player_name=' + typeInput2 + '&APIkey=' + apiKey)
+        .then((player2Data) => {
+  
+          let player2 = player2Data.data[player2Pos]
+  
+          setPlayerName2(player2.player_name)
+          setPlayerAge2(player2.player_age)
+          setPlayerGoals2(player2.player_goals)
+          setPlayerMinutes2(player2.player_minutes)
+          setPlayerMatchPlayed2(player2.player_match_played)
+          setPlayerTeam2(player2.team_name)
+          setPlayerImg2(player2.player_image)
+  
+        })
+    }, [typeInput2, player2Pos])
+
   //Default graph data
   const [playerDetails, setPlayerDetails] = useState({
     labels: [playerName1, playerName2],
@@ -118,8 +113,8 @@ function Compare() {
       backgroundColor: ['green', "cream"],
     },
     {
-      label: ("Clearence"),
-      data: [playerClearences1, playerClearences2],
+      label: ("Minutes"),
+      data: [playerMinutes1, playerMinutes2],
       tension: 0.4,
       backgroundColor: ["red", "pink"],
     },
@@ -136,48 +131,64 @@ function Compare() {
       backgroundColor: ["orange", "gold"],
     }
     ],
-  })
+  }, [playerName1, playerName2])
+
+  //Reload graph
+  useEffect(() => {
+    setPlayerDetails({
+      labels: [playerName1, playerName2],
+      color: ["red", "yellow", 'green'],
+      datasets: [{
+        label: ("Age"),
+        data: [playerAge1, playerAge2],
+        tension: 0.4,
+        backgroundColor: ['green', "cream"],
+      },
+      {
+        label: ("Minutes"),
+        data: [playerMinutes1, playerMinutes2],
+        tension: 0.4,
+        backgroundColor: ["red", "pink"],
+      },
+      {
+        label: ("Goals"),
+        data: [playerGoals1, playerGoals2],
+        tension: 0.4,
+        backgroundColor: ["teal", "blue"],
+      },
+      {
+        label: ("Match played"),
+        data: [playerMatchPlayed1, playerMatchPlayed2],
+        tension: 0.4,
+        backgroundColor: ["orange", "gold"],
+      }
+      ],
+    },)
+  }, [playerName1, playerName1])
 
   return (
-    <div style={{// marginLeft: '20%', marginRight: '20%' 
-      width: '80vw'
-    }}>
-      Compare Players
+    <div style={{ width: '80vw' }}>
+      <h1>Compare Players</h1>
 
-      <br />
+      <div style={{ display: 'flex' }}>
 
-      <div style={{display: 'flex'}}>
         <form>
           <input placeholder='Search Player 1' ref={searchRef} onInput={searchInput} />
           <button type='submit' onClick={onSubmit}>Search</button>
-          <div>Searching for: '<b> {typeInput} </b>' </div>
+          <div>Player 1: '<b> {typeInput} </b>' </div>
         </form>
-        <form>
-          <input placeholder='Search Player 2' ref={searchRef} onInput={searchInput} />
-          <button type='submit' onClick={onSubmit}>Search</button>
-          <div>Searching for: '<b> {typeInput} </b>' </div>
-        </form>
-      </div>
 
-      <div>
-        <select>
-          <option>Select Country</option>
-        </select>
-        <select>
-          <option>See Leagues</option>
-        </select>
-        <select>
-          <option>See Teams</option>
-        </select>
-        <select>
-          <option>See Players</option>
-        </select>
+        <form>
+          <input placeholder='Search Player 2' ref={searchRef2} onInput={searchInput2} />
+          <button type='submit' onClick={onSubmit2}>Search</button>
+          <div>Player 2: '<b> {typeInput2} </b>' </div>
+        </form>
+
       </div>
 
       <br />
 
-      <h1>{playerName1} vs. {playerName2}</h1>
-      <h3>{playerName2} is a better player</h3>
+      <h4>{playerName2} is a better player</h4>
 
       <br />
 
@@ -188,17 +199,11 @@ function Compare() {
           <Card.Body style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Card.Title style={{ textAlign: 'center' }}>{playerName1}</Card.Title>
             <Card.Text>
-              <img src='' alt='' />
-              Atletico Madrid
+              {playerTeam1}
             </Card.Text>
             <Card.Text>
-              10 Goals
+              {playerGoals1}
             </Card.Text>
-            <DropdownButton id="dropdown-basic-button" title={playerName1} ref={teamOptions} onChange={changeTeam}>
-              {playerList.map(() => (
-                <Dropdown.Item key={'1'}>Name</Dropdown.Item>)
-              )}
-            </DropdownButton>
           </Card.Body>
         </Card>
 
@@ -207,20 +212,11 @@ function Compare() {
           <Card.Body style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Card.Title style={{ textAlign: 'center' }}>{playerName2}</Card.Title>
             <Card.Text>
-              <img src='' alt='' />
-              PSG
+              {playerTeam2}
             </Card.Text>
             <Card.Text>
-              15 Goals
+            {playerGoals1}
             </Card.Text>
-            <DropdownButton id="dropdown-basic-button" title={playerName1} ref={teamOptions} onChange={changeTeam}>
-              {playerList.map(() => (
-                <Dropdown.Item key={'1'}>
-                  Name
-                </Dropdown.Item>
-              )
-              )}
-            </DropdownButton>
           </Card.Body>
         </Card>
 

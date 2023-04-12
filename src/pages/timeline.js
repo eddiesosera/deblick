@@ -12,14 +12,14 @@ import { selectYearList } from '../data/toYear';
 
 function Timeline() {
 
+    const apiKey = 'aa0feba793eab9ed9931e30af01f28ecba33f0be36e09853905ebbf976d57753';
+
     const [matchScore, setMatchScore] = useState([0, 0, 0]);
     const [match_HT_Score, setMatch_HT_Score] = useState([0, 0, 0]);
     const [match_OtherScore, setMatch_OtherScore] = useState([0, 0, 0])
     const [matchCards, setMatchCards] = useState([0, 0, 0]);
     const [matchGoalScorer, setMatchGoalScorer] = useState([0, 0, 0]);
     const [matchDate, setMatchDate] = useState(['2019-01-01', '2020-01-01', '2021-01-01']);
-
-    const apiKey = 'aa0feba793eab9ed9931e30af01f28ecba33f0be36e09853905ebbf976d57753';
 
     const [teamId, setTeamId] = useState(73)
     const [countryId, setCountryId] = useState(1)
@@ -201,30 +201,35 @@ function Timeline() {
     const yearOptions = useRef()
     const [selectYear, setSelectYear] = useState(2020)
 
+    //Live Match
+    useEffect(() => {
+        axios.get("https://apiv3.apifootball.com/?action=get_events&match_live=1&APIkey=aa0feba793eab9ed9931e30af01f28ecba33f0be36e09853905ebbf976d57753")
+            .then((livematch) => {
+                console.log(livematch)
+            })
+    })
+
     return (
         <div >
             Timeline
+
             <select className='custom-select' ref={teamOptions} onChange={changeTeam}>
                 <option >Choose Team</option>
-                {teamsList.map(team => (
-                    <option key={team.team_key}>{team.team_name}</option>
-                )
+                {teamsList.map(team =>
+                    (<option key={team.team_key}>{team.team_name}</option>)
+                )}
+            </select>
+            <select ref={yearOptions} onChange={(e) => { setFromDate(e.target.value); setToDate(toDateVal) }}>
+                <option >Select Year-</option>
+                {selectYearList.map(years => (<option key={years.id}>{years.year}</option>)
                 )}
             </select>
 
             <div><h1>{selectTeam}'s Statics</h1></div>
 
-            <LineGraph chartData={matchDetails} chartOptions={graphLabel} />
-
-            <select ref={yearOptions} onChange={(e) => { setFromDate(e.target.value); setToDate(toDateVal) }}>
-                <option >Select Year-</option>
-                {selectYearList.map(years => (
-                    <option key={years.id}>{years.year}</option>
-                )
-                )}
-            </select>
-
-
+            <div style={{ width: 1000 }}>
+                <LineGraph chartData={matchDetails} chartOptions={graphLabel} />
+            </div>
 
         </div>
     )

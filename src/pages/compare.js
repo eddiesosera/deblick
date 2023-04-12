@@ -5,6 +5,12 @@ import BarGraph from '../components/charts/compare/bar';
 import PieChart from '../components/charts/compare/pie';
 import PolarAreaGraph from '../components/charts/compare/polarArea';
 
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Form from 'react-bootstrap/Form';
+
 function Compare() {
 
   const apiKey = 'aa0feba793eab9ed9931e30af01f28ecba33f0be36e09853905ebbf976d57753';
@@ -26,8 +32,19 @@ function Compare() {
   const [playerClearences2, setPlayerClearences2] = useState([9])
   const [playerMatchPlayed2, setPlayerMatchPlayed2] = useState([19])
 
+  const [playerImg, setPlayerImg] = useState('https://apiv3.apifootball.com/badges/players/58284_sergio-camus.jpg')
+  const [playerImg2, setPlayerImg2] = useState('https://apiv3.apifootball.com/badges/players/51921_k-mbappe.jpg')
+
   //Players
-  const [playerList, setPlayerList] = useState([]);
+  const [playerList, setPlayerList] = useState(['']);
+
+  //Search
+  const [typeInput, setTypeInput] = useState('Sergio Camus');
+
+  const searchInput = (e) => {
+    setTypeInput(e.target.value)
+  };
+
 
   //Get teams => Team 1
   const [teamsList, setTeamsList] = useState([])
@@ -38,6 +55,8 @@ function Compare() {
 
       setTeamsList(teamsList.map((player) => player.players.map((name) => name.player_name)))
       setPlayerList(teamsList.map((ply) => ply.players))
+
+      console.log(playerList)
 
       //setPlayerAge(teamsList.map((age) => age.players.player_age))
       console.log(teamsList.map((ply) => ply.players))
@@ -73,12 +92,12 @@ function Compare() {
     setSelectTeam2(e.target.value)
   }
 
-  //Search
-  const [typeInput, setTypeInput] = useState('i');
+  // //Search
+  // const [typeInput, setTypeInput] = useState('i');
 
-  const searchInput = (e) => {
-    setTypeInput(e.target.value)
-  };
+  // const searchInput = (e) => {
+  //   setTypeInput(e.target.value)
+  // };
 
   const searchRef = useRef()
   const onSubmit = (e) => {
@@ -108,7 +127,7 @@ function Compare() {
       label: ("Goals"),
       data: [playerGoals1, playerGoals2],
       tension: 0.4,
-      backgroundColor:  ["teal", "blue"],
+      backgroundColor: ["teal", "blue"],
     },
     {
       label: ("Match played"),
@@ -119,33 +138,102 @@ function Compare() {
     ],
   })
 
-
-
   return (
-    <div>
-      Compare Player Statics<br />
-      <form>
-        <input placeholder='Search player' ref={searchRef} onInput={searchInput} />
-        <button type='submit' onClick={onSubmit}>Search</button>
-      </form>
+    <div style={{// marginLeft: '20%', marginRight: '20%' 
+      width: '80vw'
+    }}>
+      Compare Players
 
-      <div>Searching for: '<b> {typeInput} </b>' </div>
+      <br />
 
-      <h1>{selectTeam1} vs {selectTeam2}</h1>
+      <div style={{display: 'flex'}}>
+        <form>
+          <input placeholder='Search Player 1' ref={searchRef} onInput={searchInput} />
+          <button type='submit' onClick={onSubmit}>Search</button>
+          <div>Searching for: '<b> {typeInput} </b>' </div>
+        </form>
+        <form>
+          <input placeholder='Search Player 2' ref={searchRef} onInput={searchInput} />
+          <button type='submit' onClick={onSubmit}>Search</button>
+          <div>Searching for: '<b> {typeInput} </b>' </div>
+        </form>
+      </div>
 
-      <select className='custom-select' ref={teamOptions} onChange={changeTeam}>
-        <option >Choose Team 1</option>
-        {playerList.map(team => (
-          <option key={'1'}>
-            {team.map((p) => p.player_name)}
-          </option>
-        )
-        )}
-      </select>
+      <div>
+        <select>
+          <option>Select Country</option>
+        </select>
+        <select>
+          <option>See Leagues</option>
+        </select>
+        <select>
+          <option>See Teams</option>
+        </select>
+        <select>
+          <option>See Players</option>
+        </select>
+      </div>
 
-      <BarGraph chartData={playerDetails} />
-      <PieChart chartData={playerDetails}/>
-    <PolarAreaGraph chartData={playerDetails} />
+      <br />
+
+      <h1>{playerName1} vs. {playerName2}</h1>
+      <h3>{playerName2} is a better player</h3>
+
+      <br />
+
+      <div style={{ display: 'flex' }}>
+
+        <Card style={{ width: '12rem', display: 'flex', alignItems: 'center' }}>
+          <Card.Img variant='top' style={{ objectFit: 'cover' }} src={playerImg} alt='Player 1' />
+          <Card.Body style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Card.Title style={{ textAlign: 'center' }}>{playerName1}</Card.Title>
+            <Card.Text>
+              <img src='' alt='' />
+              Atletico Madrid
+            </Card.Text>
+            <Card.Text>
+              10 Goals
+            </Card.Text>
+            <DropdownButton id="dropdown-basic-button" title={playerName1} ref={teamOptions} onChange={changeTeam}>
+              {playerList.map(() => (
+                <Dropdown.Item key={'1'}>Name</Dropdown.Item>)
+              )}
+            </DropdownButton>
+          </Card.Body>
+        </Card>
+
+        <Card style={{ width: '12rem', display: 'flex', alignItems: 'center' }}>
+          <Card.Img variant='top' style={{ objectFit: 'cover' }} src={playerImg2} alt='Player 1' />
+          <Card.Body style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Card.Title style={{ textAlign: 'center' }}>{playerName2}</Card.Title>
+            <Card.Text>
+              <img src='' alt='' />
+              PSG
+            </Card.Text>
+            <Card.Text>
+              15 Goals
+            </Card.Text>
+            <DropdownButton id="dropdown-basic-button" title={playerName1} ref={teamOptions} onChange={changeTeam}>
+              {playerList.map(() => (
+                <Dropdown.Item key={'1'}>
+                  Name
+                </Dropdown.Item>
+              )
+              )}
+            </DropdownButton>
+          </Card.Body>
+        </Card>
+
+        <div style={{ width: 500 }}>
+          <BarGraph chartData={playerDetails} />
+        </div>
+
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center', width: 300 }}>
+        <PieChart chartData={playerDetails} />
+        <PolarAreaGraph chartData={playerDetails} />
+      </div>
 
     </div>
   )

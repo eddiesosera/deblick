@@ -30,5 +30,66 @@ body {
   overflow: scroll;
 }
 
+input {
+  background: none;
+  border: 1px solid #596064;
+  padding: 5px 10px;
+  font-family: Montserrat !important;
+  font-weight: 500;
+  color: white;
+  font-size: 0.825rem !important;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  /* background-color: none !important; */
+}
 
+select {
+  background: none;
+  border: 1px solid #596064;
+  padding: 7px 10px;
+  font-family: Poppins !important;
+  font-weight: 500;
+  color: white;
+  font-size: 0.825rem !important;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+}
 
+option {
+  background: #333 !important;
+  /* border: 1px solid #596064; */
+  padding: 8px 10px !important;
+  font-family: Montserrat !important;
+  font-weight: 500;
+  color: white;
+  font-size: 0.825rem !important;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+}
+
+h4 {
+  font-family: Montserrat;
+  font-size: 0.925rem !important;
+  color: #9aacba;
+}
+
+body::-webkit-scrollbar {
+  width: 12px !important;
+  /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: #eee3c4 !important;
+  /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #1b2423 !important;
+  /* color of the scroll thumb */
+  border-radius: 20px;
+  /* roundness of the scroll thumb */
+  border: 3px solid #eee3c4;
+  /* creates padding around scroll thumb */
+}

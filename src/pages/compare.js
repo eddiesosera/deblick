@@ -83,24 +83,24 @@ function Compare() {
       })
   }, [typeInput, player1Pos])
 
-    //Update Searched Player 2
-    const [player2Pos, setPlayer2Pos] = useState(0);
-    useEffect(() => {
-      axios.get('https://apiv3.apifootball.com/?action=get_players&player_name=' + typeInput2 + '&APIkey=' + apiKey)
-        .then((player2Data) => {
-  
-          let player2 = player2Data.data[player2Pos]
-  
-          setPlayerName2(player2.player_name)
-          setPlayerAge2(player2.player_age)
-          setPlayerGoals2(player2.player_goals)
-          setPlayerMinutes2(player2.player_minutes)
-          setPlayerMatchPlayed2(player2.player_match_played)
-          setPlayerTeam2(player2.team_name)
-          setPlayerImg2(player2.player_image)
-  
-        })
-    }, [typeInput2, player2Pos])
+  //Update Searched Player 2
+  const [player2Pos, setPlayer2Pos] = useState(0);
+  useEffect(() => {
+    axios.get('https://apiv3.apifootball.com/?action=get_players&player_name=' + typeInput2 + '&APIkey=' + apiKey)
+      .then((player2Data) => {
+
+        let player2 = player2Data.data[player2Pos]
+
+        setPlayerName2(player2.player_name)
+        setPlayerAge2(player2.player_age)
+        setPlayerGoals2(player2.player_goals)
+        setPlayerMinutes2(player2.player_minutes)
+        setPlayerMatchPlayed2(player2.player_match_played)
+        setPlayerTeam2(player2.team_name)
+        setPlayerImg2(player2.player_image)
+
+      })
+  }, [typeInput2, player2Pos])
 
   //Default graph data
   const [playerDetails, setPlayerDetails] = useState({
@@ -166,67 +166,89 @@ function Compare() {
     },)
   }, [playerName1, playerName1])
 
+
+  // STYLE
+  const button_style = {
+    height: '33px', display: 'flex', alignItems: 'center', fontFamily: 'Montserrat', border: 'none',
+    fontWeight: '600', fontSize: '0.625rem', padding: '0 12px', borderRadius: '0 5px 5px 0'
+  };
+  const title_style = {
+    fontFamily: 'Poppins', textAlign: 'center', fontWeight: '600', fontSize: '1rem'
+  };
+  const text_style = {
+    fontFamily: 'Montserrat', fontSize: '0.825rem'
+  };
+
+
   return (
     <div style={{ width: '80vw' }}>
-      <h1>Compare Players</h1>
+      <h1 style={{ marginBottom: '40px', fontFamily: 'Poppins' }}>Compare Players</h1>
 
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', gap: '20px' }}>
 
-        <form>
-          <input placeholder='Search Player 1' ref={searchRef} onInput={searchInput} />
-          <button type='submit' onClick={onSubmit}>Search</button>
-          <div>Player 1: '<b> {typeInput} </b>' </div>
+        <form style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <input placeholder='Search Player 1' ref={searchRef} onInput={searchInput} />
+            <button type='submit' onClick={onSubmit} style={button_style}>Search</button>
+          </div>
+          <div style={{ fontFamily: 'Montserrat', fontSize: '0.625rem', color: '#9aacba' }}>Player 1: '<b> {typeInput} </b>' </div>
         </form>
 
-        <form>
-          <input placeholder='Search Player 2' ref={searchRef2} onInput={searchInput2} />
-          <button type='submit' onClick={onSubmit2}>Search</button>
-          <div>Player 2: '<b> {typeInput2} </b>' </div>
+        <form style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <input placeholder='Search Player 2' ref={searchRef2} onInput={searchInput2} />
+            <button type='submit' onClick={onSubmit2} style={button_style}>Search</button>
+          </div>
+          <div style={{ fontFamily: 'Montserrat', fontSize: '0.625rem', color: '#9aacba' }}>Player 2: '<b> {typeInput2} </b>' </div>
         </form>
 
       </div>
 
       <br />
 
-      <h4>{playerName2} is a better player</h4>
+      {/* <h4 >{playerName2} is a better player</h4> */}
 
-      <br />
+      {/* <br /> */}
 
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', gap: '20px' }}>
 
-        <Card style={{ width: '12rem', display: 'flex', alignItems: 'center', background:'#1E2326' }}>
+        <Card style={{ width: '12rem', display: 'flex', alignItems: 'center', background: '#1E2326' }}>
           <Card.Img variant='top' style={{ objectFit: 'cover' }} src={playerImg} alt='Player 1' />
           <Card.Body style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Card.Title style={{ textAlign: 'center' }}>{playerName1}</Card.Title>
-            <Card.Text>
+            <Card.Title style={title_style}>{playerName1}</Card.Title>
+            <Card.Text style={text_style}>
               {playerTeam1}
             </Card.Text>
-            <Card.Text>
-              {playerGoals1}
+            <Card.Text style={text_style}>
+              {playerGoals1} goals
             </Card.Text>
           </Card.Body>
         </Card>
 
-        <Card style={{ width: '12rem', display: 'flex', alignItems: 'center', background:'#1E2326' }}>
+        <Card style={{ width: '12rem', display: 'flex', alignItems: 'center', background: '#1E2326' }}>
           <Card.Img variant='top' style={{ objectFit: 'cover' }} src={playerImg2} alt='Player 1' />
           <Card.Body style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Card.Title style={{ textAlign: 'center' }}>{playerName2}</Card.Title>
-            <Card.Text>
+            <Card.Title style={title_style}>{playerName2}</Card.Title>
+            <Card.Text style={text_style}>
               {playerTeam2}
             </Card.Text>
-            <Card.Text>
-            {playerGoals1}
+            <Card.Text style={text_style}>
+              {playerGoals1} goals
             </Card.Text>
           </Card.Body>
         </Card>
 
-        <div style={{ width: 500 }}>
+        <div style={{ width: 500, marginLeft: '20px', color: 'white', height: '100%' }}>
           <BarGraph chartData={playerDetails} />
         </div>
 
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center', width: 300 }}>
+      <div
+        style={{
+          display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', alignItems: 'center',
+          width: 300, marginTop: '40px'
+        }}>
         <PieChart chartData={playerDetails} />
         <PolarAreaGraph chartData={playerDetails} />
       </div>

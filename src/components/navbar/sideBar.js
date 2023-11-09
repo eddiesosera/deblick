@@ -62,7 +62,7 @@ function SideBar() {
             comp.current.classList.remove('activePage')
             ref.current.classList.add('inActivePage')
             comp.current.classList.add('inActivePage')
-            
+
             changePage3()
         }
     };
@@ -71,7 +71,7 @@ function SideBar() {
         <div className="mainSB" style={{ marginTop: '-20px' }} onLoad={changePage3}>
             <div className="sideBar-container">
 
-                <div className="sideBar-section1" style={{color: '#F2F6F9'}}>
+                <div className="sideBar-section1" style={{ color: '#F2F6F9' }}>
                     <div className="sideBar-nameChar">T</div>
                     Tsungai
                 </div>
@@ -99,7 +99,7 @@ function SideBar() {
 
                 <div className="sideBar-section3">
                     <img className="sideBar-logo" src={deBlickLogo} alt="logo" />
-                    <div className="sideBar-logoText" style={{color: '#F2F6F9'}}>deBlick</div>
+                    <div className="sideBar-logoText" style={{ color: '#F2F6F9' }}>deBlick</div>
                 </div>
 
             </div>

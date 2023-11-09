@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,7 +9,7 @@ import deBlickLogo from '../data/images/logos/deBlick-logo.svg'
 
 function Home() {
 
-  const apiKey = 'aa0feba793eab9ed9931e30af01f28ecba33f0be36e09853905ebbf976d57753';
+  const apiKey = '751813eee5d5d310c3419c3699309dacd73fa14aa13269a1c6bdf5debf9e4ee8';
 
   // Live Match Details
   const [liveGameTime, setLiveGameTime] = useState('00:00');
@@ -44,7 +44,7 @@ function Home() {
         setLiveScore(currentLive.match_hometeam_score + " - " + currentLive.match_awayteam_score)
 
       })
-  }, [liveGamePos])
+  }, [])
 
   //Change current game state
   const nextLiveGame = () => {
@@ -59,6 +59,8 @@ function Home() {
 
   //Top Scorers Details
   const [topScorerImg, setTopScorerImg] = useState('https://apiv3.apifootball.com/badges/players/51921_k-mbappe.jpg');
+  const [isImageValid, setIsImageValid] = useState(true);
+
   const [topScorerName, setTopScorerName] = useState('K. Mbappe');
   const [topScorerGoals, setTopScorerGoals] = useState(9);
   const [topScorerTeam, setTopScorerTeam] = useState('Series A');
@@ -92,12 +94,12 @@ function Home() {
 
           }, [topScorerPos])
 
-          setTopPlayerListNames(topScorerMap.map((topPL) => topPL.player_name))
-          setTopPlayerListGoals(topScorerMap.map((topPL) => topPL.goals))
+        setTopPlayerListNames(topScorerMap.map((topPL) => topPL.player_name))
+        setTopPlayerListGoals(topScorerMap.map((topPL) => topPL.goals))
 
       })
 
-  }, [topScorerPos, leagueID])
+  }, [topScorerPos, leagueID, liveGamePos])
 
   //Change Top Scorer state
   const nextTopScorer = () => {
@@ -123,7 +125,7 @@ function Home() {
   })
 
   //Home defaul graph
-  useEffect(() => {
+  useLayoutEffect(() => {
     setTopPlayersGraph({
       labels: topPlayerListNames,
       color: ['white'],
@@ -135,7 +137,11 @@ function Home() {
       }
       ],
     })
-  }, [topPlayerListNames, topPlayerListGoals])
+  }, [topPlayerListNames, topPlayerListGoals,])
+
+  useLayoutEffect(() => {
+
+  }, [isImageValid,])
 
   //Change League
   const changeLeague = (e) => {
@@ -159,13 +165,26 @@ function Home() {
     console.log(e.target.key)
   }
 
+  const handleImageLoad = () => {
+
+    setTimeout(() => {
+      setIsImageValid(true);
+    }, 3000);
+  };
+
+  const handleImageError = () => {
+
+    setTimeout(() => {
+      setIsImageValid(false);
+    }, 3000);
+  };
 
   return (
-    <div style={{fontFamily: 'Montserrat'}}>
+    <div style={{ fontFamily: 'Montserrat' }}>
 
       {/* Introduction */}
 
-      <div className='home-section1-container' style={{display:'flex'}}>
+      <div className='home-section1-container' style={{ display: 'flex' }}>
         <img src={deBlickLogo} alt='Home Logo' />
         <div className='hom-section1-description'>
           Welcome to deBlick, a dashboard based on APIFootball.
@@ -176,77 +195,96 @@ function Home() {
 
       {/* Live match */}
 
-      <div className='home-section2-container' 
-      style={{display:'flex',background: 'rgb(31,36,38)', background:'linear-gradient(90deg, rgba(31,36,38,1) 0%, rgba(20,24,25,1) 100%)', 
-      height:'330px', borderRadius:'20px',boxShadow: '0px 2px 15px rgba(10, 163, 239, 0.2)', 
-      border:'1px solid linear-gradient(90deg, rgba(25,177,252,1) 0%, rgba(255,215,3,1) 100%)',
-      flexDirection:'column', justifyContent:'space-around', padding:'40px', margin:'40px auto' }}>
+      <div className='home-section2-container'
+        style={{
+          display: 'flex', background: 'rgb(31,36,38)', background: 'linear-gradient(90deg, rgba(31,36,38,1) 0%, rgba(20,24,25,1) 100%)',
+          height: '330px', borderRadius: '20px', boxShadow: '0px 2px 15px rgba(10, 163, 239, 0.2)',
+          border: '1px solid linear-gradient(90deg, rgba(25,177,252,1) 0%, rgba(255,215,3,1) 100%)',
+          flexDirection: 'column', justifyContent: 'space-around', padding: '40px', margin: '40px auto'
+        }}>
 
-        <div className='home-section2-Top' style={{display:'flex', justifyContent:'space-between'}}>
-          <div className='home-section2-Top-Left'style={{textAlign:'start'}}>
-            <div className='section2-top-H' style={{fontSize:'24px', fontWeight:'600'}}>Live Match</div>
-            <div style={{color:'#8A9499'}}> Game 1 </div>
+        <div className='home-section2-Top' style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div className='home-section2-Top-Left' style={{ textAlign: 'start' }}>
+            <div className='section2-top-H' style={{ fontSize: '24px', fontWeight: '600' }}>Live Match</div>
+            <div style={{ color: '#8A9499' }}> Game 1 </div>
           </div>
-          <div className='home-section2-Top-Middle' style={{textAlign:'center'}}>
-            <div className='section2-top-H' style={{fontSize:'24px', fontWeight:'600'}}>{liveGameTime}</div>
-            <div  style={{color:'#8A9499'}}>{liveGameDate}</div>
+          <div className='home-section2-Top-Middle' style={{ textAlign: 'center' }}>
+            <div className='section2-top-H' style={{ fontSize: '24px', fontWeight: '600' }}>{liveGameTime}</div>
+            <div style={{ color: '#8A9499' }}>{liveGameDate}</div>
           </div>
-          <div className='home-section2-Top-Right' style={{textAlign:'end'}}>
-            <div className='section2-top-H'style={{fontSize:'24px', fontWeight:'600'}}>League</div>
-            <div style={{color:'#8A9499'}}>{liveGameLeague}</div>
+          <div className='home-section2-Top-Right' style={{ textAlign: 'end' }}>
+            <div className='section2-top-H' style={{ fontSize: '24px', fontWeight: '600' }}>League</div>
+            <div style={{ color: '#8A9499' }}>{liveGameLeague}</div>
           </div>
         </div>
-        <div className='home-section2-Middle' style={{display:'flex', flexDirection:'collumn', height:'120px', 
-        alignItems:'center', justifyContent:'space-between'}}>
-          <div className='section2-middle-left-homeTeam' style={{fontSize:'24px', fontWeight:'600'}}>
+        <div className='home-section2-Middle' style={{
+          display: 'flex', flexDirection: 'collumn', height: '120px',
+          alignItems: 'center', justifyContent: 'space-between'
+        }}>
+          <div className='section2-middle-left-homeTeam' style={{ fontSize: '24px', fontWeight: '600' }}>
             <img src={liveGameHomeTeamLogo} alt='Home' />
             {liveGameHomeTeamName}
           </div>
-          <div className='section2-middle-middle-score' style={{fontSize:'96px', fontWeight:'700'}}>
+          <div className='section2-middle-middle-score' style={{ fontSize: '96px', fontWeight: '700' }}>
             {liveGameScore}
           </div>
-          <div className='section2-middle-left-awayTeam' style={{fontSize:'24px', fontWeight:'600'}}>
+          <div className='section2-middle-left-awayTeam' style={{ fontSize: '24px', fontWeight: '600' }}>
             {liveGameAwayTeamName}
             <img src={liveGameAwayTeamLogo} alt='Away' />
           </div>
         </div>
-        <div className='home-section2-BtmNav' style={{display:'flex', justifyContent:'center', cursor:'pointer'}}>
-          <FontAwesomeIcon icon={faChevronLeft} onClick={prevLiveGame} className="s2-btm-icon" style={{marginRight:'10px', opacity:'0.3'}}/>
-          <FontAwesomeIcon icon={faChevronRight} onClick={nextLiveGame} className="s2-btm-icon" style={{marginLeft:'10px'}}/>
+        <div className='home-section2-BtmNav' style={{ display: 'flex', justifyContent: 'center', cursor: 'pointer' }}>
+          <FontAwesomeIcon icon={faChevronLeft} onClick={prevLiveGame} className="s2-btm-icon" style={{ marginRight: '10px', opacity: '0.3' }} />
+          <FontAwesomeIcon icon={faChevronRight} onClick={nextLiveGame} className="s2-btm-icon" style={{ marginLeft: '10px' }} />
         </div>
       </div>
 
 
       {/* Top Scorer section */}
 
-      <div className='home-section3-container' style={{display:'flex' }}>
-        <div className='topScorer-card-container-left' style={{background:'#1E2326', borderRadius:'10px', padding:'10px', 
-        height:'400px', display:'flex', flexDirection:'column', justifyContent:'space-around', marginRight:'20px'}}>
-          <div className='card-topHead' style={{textAlign:'center'}}>
-            Top Scorer #{topScorerPos +1}
+      <div className='home-section3-container' style={{ display: 'flex' }}>
+        <div className='topScorer-card-container-left' style={{
+          background: '#1E2326', borderRadius: '10px', padding: '10px',
+          height: '400px', display: 'flex', flexDirection: 'column', justifyContent: 'space-around', marginRight: '20px'
+        }}>
+          <div className='card-topHead' style={{ textAlign: 'center' }}>
+            Top Scorer #{topScorerPos + 1}
           </div>
-          <div className='card-ImageSec' style={{cursor:'pointer'}}>
+          <div className='card-ImageSec' style={{ cursor: 'pointer' }}>
             <FontAwesomeIcon icon={faChevronLeft} onClick={prevTopScorer} className="s2-btm-icon" />
-            <img src={topScorerImg} alt='top Scorer' style={{margin:'auto 10px'}} />
+            {
+              !isImageValid
+                ? <img
+                  src="https://ucarecdn.com/3cfda29f-3620-4ce6-b488-7f0757853c6d/-/preview/500x500/-/quality/smart_retina/-/format/auto/"
+                  onLoad={handleImageLoad}
+                  onError={handleImageError}
+                  alt='top Scorer' style={{ margin: 'auto 10px', borderRadius: '10px', width: '160px' }} />
+                : <img
+                  src={topScorerImg} alt='top Scorer'
+                  onLoad={handleImageLoad}
+                  onError={handleImageError}
+                  style={{ margin: 'auto 10px', borderRadius: '10px', width: '160px' }} />
+            }
+            {/* <img src={topScorerImg} alt='top Scorer' style={{ margin: 'auto 10px' }} /> */}
             <FontAwesomeIcon icon={faChevronRight} onClick={nextTopScorer} className="s2-btm-icon" />
           </div>
-          <div className='card-top-playerName' style={{fontSize:'24px', fontWeight:'600', textAlign:'center'}}>
+          <div className='card-top-playerName' style={{ fontSize: '24px', fontWeight: '600', textAlign: 'center' }}>
             {topScorerName}
           </div>
-          <div className='card-extraInfo' style={{display:'flex', justifyContent:'space-between'}}>
+          <div className='card-extraInfo' style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div className='extraInfo-goals'>
-              <div className='extraInfo-goals-head'  style={{color:'#8A9499'}}>
+              <div className='extraInfo-goals-head' style={{ color: '#8A9499' }}>
                 GOALS
               </div>
-              <div className='extraInfo-goals-goals' style={{fontSize:'16px', fontWeight:'600'}}>
+              <div className='extraInfo-goals-goals' style={{ fontSize: '16px', fontWeight: '600' }}>
                 {topScorerGoals}
               </div>
             </div>
-            <div className='extraInfo-Team' style={{textAlign:'end'}}>
-              <div className='extraInfo-Team-head'  style={{color:'#8A9499'}}>
+            <div className='extraInfo-Team' style={{ textAlign: 'end' }}>
+              <div className='extraInfo-Team-head' style={{ color: '#8A9499' }}>
                 TEAM
               </div>
-              <div className='extraInfo-Team' style={{fontSize:'16px', fontWeight:'600'}}>
+              <div className='extraInfo-Team' style={{ fontSize: '16px', fontWeight: '600' }}>
                 {topScorerTeam}
               </div>
             </div>
@@ -255,10 +293,10 @@ function Home() {
 
 
         {/* Top Scorer GRAPH */}
-<br/>
+        <br />
         <div>
-          <div>
-            Top Scorers
+          <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '20px' }}>
+            Top Scorers of
             <select onChange={changeLeague}>
               <option>Choose League</option>
               <option>Barclays Premier Leauge</option>
@@ -266,9 +304,9 @@ function Home() {
               <option>Bundesliga</option>
             </select>
           </div>
-          <div style={{width:'900px !important', height:'500 !important'}}>
-            <LineGraph chartData={topPlayersGraph} />
-          </div>
+          {/* <div style={{ width: '900px !important', height: '500 !important' }}> */}
+          <LineGraph chartData={topPlayersGraph} />
+          {/* </div> */}
         </div>
 
       </div>

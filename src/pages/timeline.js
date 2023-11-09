@@ -12,7 +12,7 @@ import { selectYearList } from '../data/toYear';
 
 function Timeline() {
 
-    const apiKey = 'aa0feba793eab9ed9931e30af01f28ecba33f0be36e09853905ebbf976d57753';
+    const apiKey = '751813eee5d5d310c3419c3699309dacd73fa14aa13269a1c6bdf5debf9e4ee8';
 
     const [matchScore, setMatchScore] = useState([0, 0, 0]);
     const [match_HT_Score, setMatch_HT_Score] = useState([0, 0, 0]);
@@ -40,10 +40,10 @@ function Timeline() {
 
     // Match results
     useEffect(() => {
-        axios.get('https://apiv3.apifootball.com/?action=get_events&from=' + fromDate + '-01-01&to=2023-10-01&team_id=' + teamId + '&APIkey=' + apiKey)
+        axios.get('https://apiv3.apifootball.com/?action=get_events&from=' + fromDate + '-01-01&to=2024-10-01&team_id=' + teamId + '&APIkey=' + apiKey)
             .then((res) => {
 
-                let matchData = res.data
+                let matchData = res?.data
                 console.log(matchData)
 
                 setMatchScore(matchData.map((goals) => goals.match_awayteam_score));
@@ -56,7 +56,7 @@ function Timeline() {
                 console.log(toDateVal)
 
             })
-    }, [fromDate, toDate, toDateVal, teamId])
+    }, [fromDate, toDate, toDateVal, teamId, matchScore])
 
     //Get teams
     const [leagueID, setLeagueID] = useState(302)
@@ -241,32 +241,35 @@ function Timeline() {
 
 
     return (
-        <div style={{fontFamily: 'Montserrat'}}>
+        <div style={{ fontFamily: 'Montserrat' }}>
 
-            <div><h1>Timeline of {updateSelectedTeam}'s Statics</h1></div>
+            <div style={{ marginBottom: '40px' }}><h1>Timeline of {updateSelectedTeam}'s Statics</h1></div>
 
-            {/* List of popular leagues */}
-            <select onChange={changeLeague}>
-                <option>Choose League</option>
-                <option>Barclays Premier Leauge</option>
-                <option>La Liga</option>
-                <option>Bundesliga</option>
-            </select>
+            <div style={{ display: 'flex', gap: '20px', marginBottom: '20px' }}>
+                {/* List of popular leagues */}
+                <select onChange={changeLeague}>
+                    <option>Choose League</option>
+                    <option>Barclays Premier Leauge</option>
+                    <option>La Liga</option>
+                    <option>Bundesliga</option>
+                </select>
 
-            {/* List of TEAMS in leagues */}
-            <select className='custom-select' ref={teamOptions} onChange={changeTeam}>
-                <option >Choose Team</option>
-                {teamsList.map(team =>
-                    (<option key={team.team_key} value={team.team_key} name={team.teamOptions}>{team.team_name}</option>)
-                )}
-            </select>
+                {/* List of TEAMS in leagues */}
+                <select className='custom-select' ref={teamOptions} onChange={changeTeam}>
+                    <option >Choose Team</option>
+                    {teamsList.map(team =>
+                        (<option key={team.team_key} value={team.team_key} name={team.teamOptions}>{team.team_name}</option>)
+                    )}
+                </select>
 
-            {/* Year of Mathes */}
-            <select ref={yearOptions} onChange={(e) => { setFromDate(e.target.value); setToDate(toDateVal) }}>
-                <option >Select Year-</option>
-                {selectYearList.map(years => (<option key={years.id}>{years.year}</option>)
-                )}
-            </select>
+                {/* Year of Mathes */}
+                <select ref={yearOptions} onChange={(e) => { setFromDate(e.target.value); setToDate(toDateVal) }}>
+                    <option >Select Year-</option>
+                    {selectYearList.map(years => (<option key={years.id}>{years.year}</option>)
+                    )}
+                </select>
+
+            </div>
 
             <div style={{ width: 1000 }}>
                 <LineGraph chartData={matchDetails} chartOptions={graphLabel} />

@@ -12,7 +12,7 @@
 
 #
 
-![Banner][banner]
+![Header][header]
 
 <div align="center">
 
@@ -39,7 +39,7 @@
 
 ## About this Project
 
-![Header][header]
+![Banner][banner]
 
 Tailored for the discerning football enthusiast, deBlick is not just a tool; it's your strategic advantage in the world of soccer analysis. Immerse yourself in a world of data-driven insights as deBlick meticulously compiles and presents player statistic.
 
@@ -65,7 +65,7 @@ Tailored for the discerning football enthusiast, deBlick is not just a tool; it'
 ## Built With
 
 - [![React][react.js]][react-url]
-- [![Express][express.js]][express-url]
+- [![Axios][axios]][express-url]
 - [![bootstrap][bootstrap]][bootstrap-url]
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -89,7 +89,7 @@ Tailored for the discerning football enthusiast, deBlick is not just a tool; it'
    ```sh
    npm run dev
    ```
-5. `NOTE:` The api used has diffrent subscriptions which offer different statistics. The current subscriptiono will expire on _**23 November 2023**_, therefore limiting the timeline statistics. You may get a new token for 14 days on [APIFootbal](https://apifootball.com/).
+5. **`NOTE:`** The api used offers different subscriptions which offer different statistics. The current subscription will expire on _**23 November 2023**_, therefore limiting the `timeline` statistics. You may get a new token for 14 days on [APIFootball](https://apifootball.com/).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -274,7 +274,7 @@ Distributed under the MIT License. See [License](https://opensource.org/license/
 
 [react.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [react-url]: https://reactjs.org/
-[express.js]: https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB
+[axios]: https://img.shields.io/badge/axios-%23404d59.svg?style=for-the-badge&logo=axios&logoColor=%2361DAFB
 [express-url]: https://expressjs.com/
 [mongodb]: https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white
 [mongodb-url]: https://www.mongodb.com/
@@ -297,14 +297,9 @@ Distributed under the MIT License. See [License](https://opensource.org/license/
 [banner]: src/assets/readme/banner.png
 [header]: src/assets/readme/header.png
 [home]: src/assets/readme/features/deBlick_feature_home.png
-[compare]: src/assets/readme/features/deBlick_feature_compare.png
+[compare]: src/assets/readme/features/deblick_feature_comare.png
 [timeline]: src/assets/readme/features/deblick_feature_timeline.png
 
 <!-- Process-->
 
-[usecase]: src/assets/readme/process/useCase.png
-[flowdiagram]: src/assets/readme/process/flowDiagram.png
-
 <!-- Wireframes-->
-
-[wf-home]: src/assets/readme/wireframes/home.png

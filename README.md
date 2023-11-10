@@ -110,8 +110,8 @@ The homescreen provides users with live stats of games that are being played or 
 
 ![Comparison Graphs][compare]
 The Compare screen allows users to search players and compare their statistic with other players’ from any team and league. The data is visualized by a bar graph and a pie chart.
-<br />
 
+<br />
 <!-- ### Timeline Graph -->
 
 ![Timeline Graph][timeline]
@@ -122,31 +122,9 @@ The Timeline screen allows users to track the seasonal performance of a team in 
 
 #### Technical Funtionality
 
-- `CRUD funtionality` on instruments, Answers, Replies(additional) and Users.
-- `CRUD functionality` on cart items.
-- `Search and Filter` instruments being displayed.
-- `Authentication` using password encryption library.
-- `Authorization` using tokens (JWTs).
-- `Approved orders` only by admin.
-
-<br/>
-
-#### Flow Diagram
-
-![Flow Diagram][flowdiagram]
-
-<br />
-
-#### Use Case
-
-![Use Case Diagram][usecase]
-
-<br />
-
-#### Wireframes
-
-![Homescreen wireframe][wf-home]
-_Home screen wireframe_
+- `Fetch data` from an existing api.
+- `Compare datasets` against each other.
+- `Track the timeline` of a dataset.
 
 <br />
 <br />
@@ -158,11 +136,11 @@ The `Development Process` the technical implementations and functionality done f
 
 #### Highlights
 
-thoroughly enjoyed the project's structure, as it provided me with the chance to delve into intricate tasks, such making my own API and connecting it to the client side. I thought that was fun.
+Overall this was a fun project as I got to work with a real api centered around a sport I am fond with - soccer.
 
 #### Challenges
 
-Overall the project was relatively easy to understand but really time consuming. I found state management to daunting for this task and I could have made use of libraries such as redux.
+I had quite a bit of a challenge managing state when fetching it and automatically updating it using useEffect, otherwise overally this was a fun project.
 
 <br/>
 <br/>
@@ -296,7 +274,7 @@ Distributed under the MIT License. See [License](https://opensource.org/license/
 
 [banner]: src/assets/readme/banner.png
 [header]: src/assets/readme/header.png
-[home]: src/assets/readme/features/deBlick_feature_home.png
+[home]: src/assets/readme/features/deblick_feature_home.png
 [compare]: src/assets/readme/features/deblick_feature_comare.png
 [timeline]: src/assets/readme/features/deblick_feature_timeline.png
 

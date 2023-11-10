@@ -28,7 +28,7 @@
     <a href="https://github.com/eddiesosera/deBlick/blob/main/"><strong>Explore the docs</strong></a>
     <br />
     <br />
-    <a href="https://drive.google.com/file/d/1xJGy-j4TskFiKSpnWFAl9HrnYCG_uiMS/view?usp=sharing">View Demo</a>
+    <a href="https://drive.google.com/file/d/1w0BoPW3ZTaTx2v4HFzFbLDNLrEdiysOW/view?usp=sharing">View Demo</a>
     ·
     <a href="https://github.com/eddiesosera/deBlick/issues">Report Bug</a>
     ·
@@ -148,7 +148,7 @@ I had quite a bit of a challenge managing state when fetching it and automatical
 
 ## Final Outcomes
 
-[View Demonstration](https://drive.google.com/file/d/1xJGy-j4TskFiKSpnWFAl9HrnYCG_uiMS/view?usp=sharing)
+[View Demonstration](https://drive.google.com/file/d/1w0BoPW3ZTaTx2v4HFzFbLDNLrEdiysOW/view?usp=sharing)
 
 <!-- CONCLUSION -->
 

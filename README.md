@@ -89,7 +89,7 @@ Tailored for the discerning football enthusiast, deBlick is not just a tool; it'
    ```sh
    npm run dev
    ```
-5. **`NOTE:`** The api used offers different subscriptions which offer different statistics. The current subscription will expire on _**23 November 2023**_, therefore limiting the `timeline` statistics. You may get a new token for 14 days on [APIFootball](https://apifootball.com/).
+5. **`NOTE:`** The api used offers different subscriptions which offer different statistics. The current subscription will expire on _23 November 2023_, therefore limiting the `timeline` statistics. You may get a new token for 14 days on [APIFootball](https://apifootball.com/).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
